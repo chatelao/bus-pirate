@@ -51,9 +51,6 @@ void bpWhex(unsigned int c);
 //output an 16bit/2byte hex value to the user terminal
 void bpWinthex(unsigned int c); 
 
-//output an 32bit/4byte hex value to the user terminal
-void bpWlonghex(unsigned long int c);
-
 //output an 8bit/byte binary value to the user terminal
 void bpWbin(unsigned char c);
 
@@ -137,8 +134,6 @@ unsigned char USBUSARTIsTxTrfReady(void);
 //
 // Read the lower 16 bits from programming flash memory
 unsigned int bpReadFlash(unsigned int page, unsigned int addr);
-// Read the full 24 bits from programming flash memory
-unsigned long int bpReadFlashFull(unsigned int page, unsigned int addr);
 
 #endif
 

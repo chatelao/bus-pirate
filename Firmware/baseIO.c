@@ -205,24 +205,20 @@ void bpWhexBuf(unsigned int c) {
 // output a 16bit hex value to the user terminal
 
 void bpWinthex(unsigned int c) {
+    unsigned int b;
+
     bpWstring("0x");
-    int i;
-    for (i = 12; i >= 0; i -= 4) {
-        UART1TX(HEXASCII[(c >> i) & 0xF]);
-    }
+    b = (c >> 12) & 0x0F;
+    UART1TX(HEXASCII[b]);
+    b = (c >> 8) & 0x0F;
+    UART1TX(HEXASCII[b]);
+    b = (c >> 4) & 0x0F;
+    UART1TX(HEXASCII[b]);
+    b = c & 0x0F;
+    UART1TX(HEXASCII[b]);
     return;
 }
 
-// output a 32bit hex value to the user terminal
-
-void bpWlonghex(unsigned long int c) {
-    bpWstring("0x");
-    int i;
-    for (i = 28; i >= 0; i -= 4) {
-        UART1TX(HEXASCII[(c >> i) & 0xF]);
-    }
-    return;
-}
 
 //print an ADC measurement in decimal form
 
@@ -254,24 +250,11 @@ void bpWvolts(const unsigned int adc) {
 
 unsigned int bpReadFlash(unsigned int page, unsigned int addr) {
     unsigned int tblold;
-    unsigned int flash;
+    unsigned flash;
 
     tblold = TBLPAG;
     TBLPAG = page;
-    flash = __builtin_tblrdl(addr);
-    TBLPAG = tblold;
-
-    return flash;
-}
-
-// Read the full 24 bits from programming flash memory
-unsigned long int bpReadFlashFull(unsigned int page, unsigned int addr) {
-    unsigned int tblold;
-    unsigned long int flash;
-
-    tblold = TBLPAG;
-    TBLPAG = page;
-    flash = (__builtin_tblrdh(addr) << 16) | __builtin_tblrdl(addr);
+    flash = (__builtin_tblrdh(addr) << 8) | __builtin_tblrdl(addr);
     TBLPAG = tblold;
 
     return flash;
